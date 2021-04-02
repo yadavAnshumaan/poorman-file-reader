@@ -1,0 +1,26 @@
+<div class="breadcrumb">
+  <ng-container *ngFor="let bread of breadcrumb; let i = index">
+    <a href="#" *ngIf="bread !== '..' && bread !== '.'" (click)="handleBreadcrumbClick(i)">
+      {{bread}}
+    </a>
+  </ng-container>
+</div>
+<div class="listing">
+  <ng-container *ngIf="data.length > 0; else file">
+    <ng-container *ngFor="let d of data">
+      <ng-container *ngTemplateOutlet="dir; context: {$implicit: d}">
+      </ng-container>
+    </ng-container>
+  </ng-container>
+</div>
+
+<!-- Templates -->
+<ng-template #file>
+  <textarea disabled style="width: 100%;height: 100%;background: white;">{{list?.data}}</textarea>
+</ng-template>
+<ng-template #dir let-d>
+  <a class="list-item" href="#" (click)="handleClick(d.entry)">
+    <span [class]="d.isDirectory ? 'D' : 'F'"></span>
+    {{d.entry}} {{d.size | unitOfInformation }}
+  </a>
+</ng-template>
